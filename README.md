@@ -2,9 +2,9 @@
 Dockerized Spring Boot / Maven starter kit
 
 
-### specifications
+### specifications:
 
-'''
+'
 Using the following JSON feed:
 
 http://jsonplaceholder.typicode.com/posts
@@ -48,4 +48,4 @@ Use JUnit and Mockito or other mock testing framework
 All dependencies should be publicly available or properly included with the project and referenced within the POM
 
 Be creative, have fun and may the force be with you
-'''
+'
