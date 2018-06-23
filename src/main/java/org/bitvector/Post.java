@@ -19,34 +19,42 @@ public class Post {
     public Post() {
     }
 
+    @SuppressWarnings("unused")
     public long getUserId() {
         return userId;
     }
 
+    @SuppressWarnings("unused")
     public void setUserId(long userId) {
         this.userId = userId;
     }
 
+    @SuppressWarnings("unused")
     public long getId() {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(long id) {
         this.id = id;
     }
 
+    @SuppressWarnings("unused")
     public String getTitle() {
         return title;
     }
 
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @SuppressWarnings("unused")
     public String getBody() {
         return body;
     }
 
+    @SuppressWarnings("unused")
     public void setBody(String body) {
         this.body = body;
     }
