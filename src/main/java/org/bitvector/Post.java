@@ -1,7 +1,10 @@
 package org.bitvector;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Post {
 
     //  {
@@ -11,8 +14,8 @@ public class Post {
     //    "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
     //  }
 
-    private long userId;
-    private long id;
+    private Integer userId;
+    private Integer id;
     private String title;
     private String body;
 
@@ -20,22 +23,22 @@ public class Post {
     }
 
     @SuppressWarnings("unused")
-    public long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
     @SuppressWarnings("unused")
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
     @SuppressWarnings("unused")
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
     @SuppressWarnings("unused")
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -64,8 +67,8 @@ public class Post {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return userId == post.userId &&
-                id == post.id &&
+        return Objects.equals(userId, post.userId) &&
+                Objects.equals(id, post.id) &&
                 Objects.equals(title, post.title) &&
                 Objects.equals(body, post.body);
     }

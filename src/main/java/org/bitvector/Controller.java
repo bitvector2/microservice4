@@ -1,12 +1,13 @@
 package org.bitvector;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class Controller {
 
     private final PostService postService;
@@ -16,9 +17,33 @@ public class Controller {
         this.postService = postService;
     }
 
-    @RequestMapping("/")
-    public List<Post> home() {
+    @RequestMapping(value = "/posts", method = RequestMethod.GET)
+    public List<Post> getAll() {
         return postService.getAll();
+    }
+
+    @RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)
+    public Post get(@PathVariable("id") String id) {
+        return postService.get(id);
+    }
+
+    @RequestMapping(value = "/posts/{id}", method = RequestMethod.PUT)
+    public Post update(@PathVariable("id") String id, @RequestBody Post postPatch) {
+        Post post = postService.get(id);
+
+        if (postPatch.getTitle() != null) {
+            post.setTitle(postPatch.getTitle());
+        }
+        if (postPatch.getBody() != null) {
+            post.setBody(postPatch.getBody());
+        }
+
+        return postService.update(id, post);
+    }
+
+    @RequestMapping(value = "/posts/meta", method = RequestMethod.GET)
+    public HashMap<String, Integer> meta() {
+        return postService.meta();
     }
 
 }
