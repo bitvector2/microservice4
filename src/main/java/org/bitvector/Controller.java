@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
 public class Controller {
 
     private final PostService postService;
@@ -27,8 +26,10 @@ public class Controller {
         return postService.get(id);
     }
 
-    @RequestMapping(value = "/posts/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/posts/{id}", method = RequestMethod.PATCH)
     public Post update(@PathVariable("id") String id, @RequestBody Post postPatch) {
+        System.out.println(postPatch);
+
         Post post = postService.get(id);
 
         if (postPatch.getTitle() != null) {

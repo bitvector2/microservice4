@@ -10,8 +10,9 @@ import java.util.List;
 
 @Component
 public class PostService {
-    private String url = "http://jsonplaceholder.typicode.com/posts"; // FIXME: hardcoded for brevity
-    private final RestTemplate restTemplate = new RestTemplate();
+
+    private String url = "http://jsonplaceholder.typicode.com/posts";
+    private RestTemplate restTemplate = new RestTemplate();
 
     List<Post> getAll() {
         Post[] posts = restTemplate.getForObject(url, Post[].class);
@@ -23,42 +24,40 @@ public class PostService {
     }
 
     Post update(String id, Post post) {
+        // Don't actually upstream the data just round trip it (return the new Post object)
+        System.out.println("Ignoring call to update object: " + id);
         return post;
     }
 
     HashMap<String, Integer> meta() {
-        // {
-        //	 "posts": 100,
-        //	 "users": 10
-        // }
 
-        HashMap<String, Integer> metaInfo = new HashMap<>();
+        HashMap<String, Integer> counters = new HashMap<>();
 
-        HashMap<Integer, Integer> postsByUser = new HashMap<>();
+        HashMap<Integer, Integer> countsByUser = new HashMap<>();
 
         Post[] posts = restTemplate.getForObject(url, Post[].class);
 
         Arrays.asList(posts).forEach(post -> {
-            Integer totalCount = metaInfo.get("posts");
-            if (totalCount == null) {
-                totalCount = 1;
+            Integer newPostCount = counters.get("posts");
+            if (newPostCount == null) {
+                newPostCount = 1;
             } else {
-                totalCount += 1;
+                newPostCount += 1;
             }
-            metaInfo.put("posts", totalCount);
+            counters.put("posts", newPostCount);
 
-            Integer count = postsByUser.get(post.getUserId());
-            if (count == null) {
-                count = 1;
+            Integer newCountByUser = countsByUser.get(post.getUserId());
+            if (newCountByUser == null) {
+                newCountByUser = 1;
             } else {
-                count += 1;
+                newCountByUser += 1;
             }
-            postsByUser.put(post.getUserId(), count);
+            countsByUser.put(post.getUserId(), newCountByUser);
         });
 
-        metaInfo.put("users", postsByUser.size());
+        counters.put("users", countsByUser.size());
 
-        return metaInfo;
+        return counters;
     }
 
 }
