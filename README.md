@@ -1,7 +1,7 @@
 # microservice4
 Dockerized Spring Boot / Maven starter kit
 
-docker build -t bitvector/microservice4:1.0-SNAPSHOT . #<--- a trailing dot indeed
+docker build -t bitvector/microservice4:1.0-SNAPSHOT . #<--- note a trailing dot
 
 docker run -it -p 8080:8080 bitvector/microservice4:1.0-SNAPSHOT
 
