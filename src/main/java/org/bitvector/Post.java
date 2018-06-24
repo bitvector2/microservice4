@@ -12,10 +12,11 @@ public class Post {
     private String title;
     private String body;
 
+    @SuppressWarnings("WeakerAccess")
     public Post() {
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public Integer getUserId() {
         return userId;
     }
@@ -35,22 +36,22 @@ public class Post {
         this.id = id;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused, WeakerAccess")
     public String getTitle() {
         return title;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused, WeakerAccess")
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused, WeakerAccess")
     public String getBody() {
         return body;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused, WeakerAccess")
     public void setBody(String body) {
         this.body = body;
     }

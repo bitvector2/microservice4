@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 public class Controller {
 
-    private final PostService postService;
+    private PostService postService;
 
     @Autowired
     public Controller(PostService postService) {
