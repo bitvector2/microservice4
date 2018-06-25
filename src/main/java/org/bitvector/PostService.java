@@ -1,6 +1,6 @@
 package org.bitvector;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -8,11 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 
 
-@Component
+@Service
 public class PostService {
-
     private String url = "http://jsonplaceholder.typicode.com/posts";
     private RestTemplate restTemplate = new RestTemplate();
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     List<Post> getAll() {
         Post[] posts = restTemplate.getForObject(url, Post[].class);

@@ -16,23 +16,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AppTest {
 
     @LocalServerPort
-    private int port;
+    public int port;
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    public TestRestTemplate restTemplate;
 
     @Test
-    public void getMetaShouldReturnData() {
+    public void getMetaShouldReturnLiveData() {
+        // full round trip with live data
         String url = "http://127.0.0.1:" + this.port + "/posts/meta";
         assertThat(this.restTemplate.getForObject(url, String.class)).contains("users");
     }
 
     @Test
-    public void patchPostShouldReturnData() {
+    public void patchPostShouldReturnLiveData() {
+        // full round trip with live data
         String url = "http://127.0.0.1:" + this.port + "/posts/4";
         Post post = new Post();
         post.setTitle("1800Flowers");
         post.setBody("1800Flowers");
         assertThat(this.restTemplate.patchForObject(url, post, String.class)).contains("1800Flowers");
     }
+
 }
