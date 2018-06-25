@@ -5,6 +5,17 @@ docker build -t bitvector/microservice4:1.0-SNAPSHOT . #<--- note a trailing dot
 
 docker run -it -p 8080:8080 bitvector/microservice4:1.0-SNAPSHOT
 
+In Postman do:
+
+GET 127.0.0.1:8080/posts/meta
+
+PATCH 127.0.0.1:8080/posts/4 with payload:
+
+{
+    "title": "1800Flowers",
+    "body": "1800Flowers"
+}
+
 -=-=-=-=-=-=-
 
 Using the following JSON feed:
