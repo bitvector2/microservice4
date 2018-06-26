@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +32,8 @@ public class PostService {
     }
 
     List<Post> getAll() {
-        Post[] posts = restTemplate.getForObject(url, Post[].class);
-        return Arrays.asList(posts);
+        Post[] arr = restTemplate.getForObject(url, Post[].class);
+        return new ArrayList<>(Arrays.asList(arr));
     }
 
     Post get(String id) {
@@ -46,14 +47,12 @@ public class PostService {
     }
 
     HashMap<String, Integer> meta() {
-
         HashMap<String, Integer> counters = new HashMap<>();
-
         HashMap<Integer, Integer> countsByUser = new HashMap<>();
 
-        Post[] posts = restTemplate.getForObject(url, Post[].class);
+        List<Post> posts = this.getAll();
 
-        Arrays.asList(posts).forEach(post -> {
+        posts.forEach(post -> {
             Integer newPostCount = counters.get("posts");
             if (newPostCount == null) {
                 newPostCount = 1;
