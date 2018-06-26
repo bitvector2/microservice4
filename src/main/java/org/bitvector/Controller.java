@@ -28,8 +28,6 @@ public class Controller {
 
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.PATCH)
     public Post update(@PathVariable("id") String id, @RequestBody Post postPatch) {
-        System.out.println(postPatch);
-
         Post post = postService.get(id);
 
         if (postPatch.getTitle() != null) {

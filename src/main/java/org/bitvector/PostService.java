@@ -1,5 +1,7 @@
 package org.bitvector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,14 +12,18 @@ import java.util.List;
 
 @Service
 public class PostService {
+    private static final Logger logger = LoggerFactory.getLogger(PostService.class);
+
     private String url = "http://jsonplaceholder.typicode.com/posts";
     private RestTemplate restTemplate = new RestTemplate();
 
-    public String getUrl() {
+    @SuppressWarnings("unused")
+    String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    @SuppressWarnings("unused")
+    void setUrl(String url) {
         this.url = url;
     }
 
@@ -32,7 +38,7 @@ public class PostService {
 
     Post update(String id, Post post) {
         // Don't actually upstream the data just round trip it (return the new Post object)
-        System.out.println("Ignoring call to update object: " + id);
+        logger.warn("Ignoring call to update object: " + id);
         return post;
     }
 
