@@ -1,8 +1,7 @@
 package org.bitvector.sb;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,15 +10,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-
 @Service
 public class PostService {
 
-    private Logger logger = LoggerFactory.getLogger(PostService.class);
-    private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate;
 
     @Value("${post_service_url}")
     private String url;
+
+    public PostService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
+    }
 
     @SuppressWarnings("unused")
     String getUrl() {
@@ -41,9 +42,7 @@ public class PostService {
     }
 
     Post update(String id, Post post) {
-        // Don't actually upstream the data just round trip it (return the new Post object)
-        logger.warn("Ignoring call to update Post: id=" + id);
-        return post;
+        return restTemplate.patchForObject(url + "/" + id, post, Post.class);
     }
 
     HashMap<String, Integer> meta() {
@@ -53,14 +52,6 @@ public class PostService {
         List<Post> posts = this.getAll();
 
         posts.forEach(post -> {
-            Integer newPostCount = counters.get("posts");
-            if (newPostCount == null) {
-                newPostCount = 1;
-            } else {
-                newPostCount += 1;
-            }
-            counters.put("posts", newPostCount);
-
             Integer newCountByUser = countsByUser.get(post.getUserId());
             if (newCountByUser == null) {
                 newCountByUser = 1;
@@ -70,6 +61,7 @@ public class PostService {
             countsByUser.put(post.getUserId(), newCountByUser);
         });
 
+        counters.put("posts", posts.size());
         counters.put("users", countsByUser.size());
 
         return counters;
