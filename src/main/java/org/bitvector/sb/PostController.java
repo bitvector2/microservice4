@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-public class Controller {
+public class PostController {
 
     private PostService postService;
 
     @Autowired
-    public Controller(PostService postService) {
+    public PostController(PostService postService) {
         this.postService = postService;
     }
 

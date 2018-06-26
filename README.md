@@ -1,9 +1,18 @@
 # microservice4
 Dockerized Spring Boot / Maven starter kit
 
-docker build -t bitvector/microservice4:1.0-SNAPSHOT . #<--- note a trailing dot
+$ export SPRING_APPLICATION_JSON='{"post_service_url":"http://jsonplaceholder.typicode.com/posts"}'  
 
-docker run -it -p 8080:8080 bitvector/microservice4:1.0-SNAPSHOT
+$ mvn clean package  
+
+$ docker build -t bitvector/microservice4:1.0-SNAPSHOT . #<--- note a trailing dot
+
+$ docker run -it \\  
+-p 8080:8080 \\  
+-e SPRING_APPLICATION_JSON='{"post_service_url":"http://jsonplaceholder.typicode.com/posts"}' \\  
+bitvector/microservice4:1.0-SNAPSHOT
+
+-=-=-=-=-=-=-
 
 In Postman do:
 
