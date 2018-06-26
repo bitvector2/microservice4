@@ -1,4 +1,4 @@
-package org.bitvector;
+package org.bitvector.sb;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

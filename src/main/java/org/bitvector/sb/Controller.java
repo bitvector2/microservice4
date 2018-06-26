@@ -1,4 +1,4 @@
-package org.bitvector;
+package org.bitvector.sb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

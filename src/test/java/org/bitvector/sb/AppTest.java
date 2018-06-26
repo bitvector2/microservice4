@@ -1,4 +1,4 @@
-package org.bitvector;
+package org.bitvector.sb;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
