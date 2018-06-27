@@ -5,10 +5,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PostService {
@@ -32,9 +29,25 @@ public class PostService {
         this.url = url;
     }
 
-    List<Post> getAll() {
+    List<Post> getAll(String sortKey) {
         Post[] arr = restTemplate.getForObject(url, Post[].class);
-        return new ArrayList<>(Arrays.asList(arr));
+        List<Post> posts = new ArrayList<>(Arrays.asList(arr));
+
+        if (sortKey != null) {
+            switch (sortKey) {
+                case "id":
+                    posts.sort(Comparator.comparing(Post::getId));
+                    break;
+                case "userId":
+                    posts.sort(Comparator.comparing(Post::getUserId));
+                    break;
+                case "title":
+                    posts.sort(Comparator.comparing(Post::getTitle));
+                    break;
+            }
+        }
+
+        return posts;
     }
 
     Post get(String id) {
@@ -49,7 +62,7 @@ public class PostService {
         HashMap<String, Integer> counters = new HashMap<>();
         HashMap<Integer, Integer> countsByUser = new HashMap<>();
 
-        List<Post> posts = this.getAll();
+        List<Post> posts = this.getAll(null);
 
         posts.forEach(post -> {
             Integer newCountByUser = countsByUser.get(post.getUserId());
