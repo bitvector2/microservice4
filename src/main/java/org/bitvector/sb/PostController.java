@@ -21,9 +21,9 @@ public class PostController {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public List<Post> getAllSorted(@RequestParam("sortKey") Optional<String> sortKey) {
         if (sortKey.isPresent())
-            return postService.getAll(sortKey.get());
+            return postService.getAll(Optional.of(sortKey.toString()));
         else
-            return postService.getAll(null);
+            return postService.getAll(Optional.empty());
     }
 
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)

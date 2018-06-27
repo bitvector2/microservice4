@@ -29,12 +29,13 @@ public class PostService {
         this.url = url;
     }
 
-    List<Post> getAll(String sortKey) {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    List<Post> getAll(Optional<String> sortKey) {
         Post[] arr = restTemplate.getForObject(url, Post[].class);
         List<Post> posts = new ArrayList<>(Arrays.asList(arr));
 
-        if (sortKey != null) {
-            switch (sortKey) {
+        if (sortKey.isPresent()) {
+            switch (sortKey.get()) {
                 case "id":
                     posts.sort(Comparator.comparing(Post::getId));
                     break;
@@ -62,7 +63,7 @@ public class PostService {
         HashMap<String, Integer> counters = new HashMap<>();
         HashMap<Integer, Integer> countsByUser = new HashMap<>();
 
-        List<Post> posts = this.getAll(null);
+        List<Post> posts = this.getAll(Optional.empty());
 
         posts.forEach(post -> {
             Integer newCountByUser = countsByUser.get(post.getUserId());
