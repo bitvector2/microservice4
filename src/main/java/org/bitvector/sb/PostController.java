@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class PostController {
@@ -18,12 +17,8 @@ public class PostController {
     }
 
     @RequestMapping(value = "/posts", method = RequestMethod.GET)
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public List<Post> getAllSorted(@RequestParam("sortKey") Optional<String> sortKey) {
-        if (sortKey.isPresent())
-            return postService.getAll(Optional.of(sortKey.toString()));
-        else
-            return postService.getAll(Optional.empty());
+    public List<Post> getAll(@RequestParam("sortKey") String sortKey) {
+        return postService.getAll(sortKey);
     }
 
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)
