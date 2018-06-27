@@ -64,7 +64,7 @@ public class PostService {
 
         List<Post> posts = this.getAll(null);
 
-        posts.forEach(post -> {
+        for (Post post : posts) {
             Integer newCountByUser = countsByUser.get(post.getUserId());
             if (newCountByUser == null) {
                 newCountByUser = 1;
@@ -72,7 +72,7 @@ public class PostService {
                 newCountByUser += 1;
             }
             countsByUser.put(post.getUserId(), newCountByUser);
-        });
+        }
 
         counters.put("posts", posts.size());
         counters.put("users", countsByUser.size());

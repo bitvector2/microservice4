@@ -7,7 +7,7 @@ $ mvn clean package
 
 $ docker build -t bitvector/microservice4:1.0-SNAPSHOT . #<--- note a trailing dot
 
-$ docker run -it \\  
+$ docker run -it --rm \\  
 -p 8080:8080 \\  
 -e SPRING_APPLICATION_JSON='{"post_service_url":"http://jsonplaceholder.typicode.com/posts"}' \\  
 bitvector/microservice4:1.0-SNAPSHOT
