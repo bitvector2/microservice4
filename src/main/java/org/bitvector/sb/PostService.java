@@ -58,6 +58,10 @@ public class PostService {
         return restTemplate.patchForObject(url + "/" + id, post, Post.class);
     }
 
+    String test() {
+        return "OK";
+    }
+
     HashMap<String, Integer> meta() {
         HashMap<String, Integer> counters = new HashMap<>();
         HashMap<Integer, Integer> countsByUser = new HashMap<>();

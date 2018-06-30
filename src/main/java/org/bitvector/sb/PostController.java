@@ -16,6 +16,11 @@ public class PostController {
         this.postService = postService;
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String test() {
+        return postService.test();
+    }
+
     @RequestMapping(value = "/posts", method = RequestMethod.GET)
     public List<Post> getAll(@RequestParam("sortKey") String sortKey) {
         return postService.getAll(sortKey);
