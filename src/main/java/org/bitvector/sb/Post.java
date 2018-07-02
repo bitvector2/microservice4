@@ -2,10 +2,12 @@ package org.bitvector.sb;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
 import java.util.Objects;
 
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Post {
+public class Post implements Serializable {
 
     private Integer userId;
     private Integer id;
@@ -26,7 +28,7 @@ public class Post {
         this.userId = userId;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused, WeakerAccess")
     public Integer getId() {
         return id;
     }

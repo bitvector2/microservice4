@@ -1,7 +1,10 @@
 package org.bitvector.sb;
 
+import com.hazelcast.core.HazelcastInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,25 +14,29 @@ import java.util.*;
 public class PostService {
 
     private RestTemplate restTemplate;
+    private HazelcastInstance hazelcast;
 
     @Value("${post_service_url}")
     private String url;
 
-    public PostService(RestTemplateBuilder restTemplateBuilder) {
+    @Autowired
+    public PostService(RestTemplateBuilder restTemplateBuilder, HazelcastInstance hazelcast) {
         this.restTemplate = restTemplateBuilder.build();
+        this.hazelcast = hazelcast;
     }
 
     @SuppressWarnings("unused")
-    String getUrl() {
+    public String getUrl() {
         return url;
     }
 
     @SuppressWarnings("unused")
-    void setUrl(String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
-    List<Post> getAll(String sortKey) {
+    @Cacheable("posts")
+    public List<Post> getAll(String sortKey) {
         Post[] arr = restTemplate.getForObject(url, Post[].class);
         List<Post> posts = new ArrayList<>(Arrays.asList(arr));
 
@@ -50,19 +57,19 @@ public class PostService {
         return posts;
     }
 
-    Post get(String id) {
+    @Cacheable("posts")
+    public Post get(String id) {
         return restTemplate.getForObject(url + "/" + id, Post.class);
     }
 
-    Post update(String id, Post post) {
+    @SuppressWarnings("WeakerAccess")
+    @Cacheable("posts")
+    public Post update(String id, Post post) {
         return restTemplate.patchForObject(url + "/" + id, post, Post.class);
     }
 
-    String test() {
-        return "OK";
-    }
-
-    HashMap<String, Integer> meta() {
+    @SuppressWarnings("WeakerAccess")
+    public HashMap<String, Integer> meta() {
         HashMap<String, Integer> counters = new HashMap<>();
         HashMap<Integer, Integer> countsByUser = new HashMap<>();
 
