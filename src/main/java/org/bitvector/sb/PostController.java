@@ -41,7 +41,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/posts/meta", method = RequestMethod.GET)
-    public HashMap<String, Integer> meta() {
+    public HashMap<String, Long> meta() {
         return postService.meta();
     }
 

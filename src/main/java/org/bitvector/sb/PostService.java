@@ -1,6 +1,7 @@
 package org.bitvector.sb;
 
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -14,15 +15,15 @@ import java.util.*;
 public class PostService {
 
     private RestTemplate restTemplate;
-    private HazelcastInstance hazelcast;
+    private HazelcastInstance hazelcastInstance;
 
     @Value("${post_service_url}")
     private String url;
 
     @Autowired
-    public PostService(RestTemplateBuilder restTemplateBuilder, HazelcastInstance hazelcast) {
+    public PostService(RestTemplateBuilder restTemplateBuilder, HazelcastInstance hazelcastInstance) {
         this.restTemplate = restTemplateBuilder.build();
-        this.hazelcast = hazelcast;
+        this.hazelcastInstance = hazelcastInstance;
     }
 
     @SuppressWarnings("unused")
@@ -35,7 +36,6 @@ public class PostService {
         this.url = url;
     }
 
-    @Cacheable("posts")
     public List<Post> getAll(String sortKey) {
         Post[] arr = restTemplate.getForObject(url, Post[].class);
         List<Post> posts = new ArrayList<>(Arrays.asList(arr));
@@ -69,8 +69,8 @@ public class PostService {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public HashMap<String, Integer> meta() {
-        HashMap<String, Integer> counters = new HashMap<>();
+    public HashMap<String, Long> meta() {
+        HashMap<String, Long> counters = new HashMap<>();
         HashMap<Integer, Integer> countsByUser = new HashMap<>();
 
         List<Post> posts = this.getAll(null);
@@ -85,8 +85,15 @@ public class PostService {
             countsByUser.put(post.getUserId(), newCountByUser);
         }
 
-        counters.put("posts", posts.size());
-        counters.put("users", countsByUser.size());
+        Long numPosts = (long) posts.size();
+        Long numUsers = (long) countsByUser.size();
+
+        IMap<Object, Object> map = hazelcastInstance.getMap("posts");
+        Long numCached = map.getLocalMapStats().getOwnedEntryCount();
+
+        counters.put("posts", numPosts);
+        counters.put("users", numUsers);
+        counters.put("cached", numCached);
 
         return counters;
     }
