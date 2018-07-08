@@ -36,6 +36,7 @@ public class PostService {
         this.url = url;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public List<Post> getAll(String sortKey) {
         Post[] arr = restTemplate.getForObject(url, Post[].class);
         List<Post> posts = new ArrayList<>(Arrays.asList(arr));
@@ -57,13 +58,13 @@ public class PostService {
         return posts;
     }
 
-    @Cacheable("posts")
+    @Cacheable(cacheNames = "posts", key = "#id")
     public Post get(String id) {
         return restTemplate.getForObject(url + "/" + id, Post.class);
     }
 
     @SuppressWarnings("WeakerAccess")
-    @Cacheable("posts")
+    @Cacheable(cacheNames = "posts", key = "#id")
     public Post update(String id, Post post) {
         return restTemplate.patchForObject(url + "/" + id, post, Post.class);
     }
