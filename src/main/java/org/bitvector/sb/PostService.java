@@ -5,7 +5,7 @@ import com.hazelcast.core.IMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -58,13 +58,13 @@ public class PostService {
         return posts;
     }
 
-    @Cacheable(cacheNames = "posts", key = "#id")
+    @CachePut(value = "posts", key = "#result.id")
     public Post get(String id) {
         return restTemplate.getForObject(url + "/" + id, Post.class);
     }
 
     @SuppressWarnings("WeakerAccess")
-    @Cacheable(cacheNames = "posts", key = "#id")
+    @CachePut(value = "posts", key = "#result.id")
     public Post update(String id, Post post) {
         return restTemplate.patchForObject(url + "/" + id, post, Post.class);
     }
