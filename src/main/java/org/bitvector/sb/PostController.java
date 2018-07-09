@@ -40,6 +40,28 @@ public class PostController {
         return postService.update(id, post);
     }
 
+    @RequestMapping(value = "/posts", method = RequestMethod.POST)
+    public Post add(@RequestBody Post postPatch) {
+        Post post = new Post();
+
+        if (postPatch.getUserId() != null) {
+            post.setUserId(postPatch.getUserId());
+        }
+        if (postPatch.getTitle() != null) {
+            post.setTitle(postPatch.getTitle());
+        }
+        if (postPatch.getBody() != null) {
+            post.setBody(postPatch.getBody());
+        }
+
+        return postService.add(post);
+    }
+
+    @RequestMapping(value = "/posts/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") String id) {
+        postService.delete(id);
+    }
+
     @RequestMapping(value = "/posts/meta", method = RequestMethod.GET)
     public HashMap<String, Long> meta() {
         return postService.meta();
