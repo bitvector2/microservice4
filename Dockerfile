@@ -1,3 +1,4 @@
-FROM azul/zulu-openjdk:10
-COPY target/microservice4-1.0-SNAPSHOT.jar app.jar
+FROM bitvector/zulu-openjdk:10
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]

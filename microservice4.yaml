@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice4
+  namespace: default
+  labels:
+    app: microservice4
+spec:
+  ports:
+  - name: service
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: microservice4
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice4
+  namespace: default
+  labels:
+    app: microservice4
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: microservice4
+  template:
+    metadata:
+      labels:
+        app: microservice4
+    spec:
+      containers:
+      - name: microservice4
+        image: bitvector/microservice4:0.0.4
+        command: ["java"]
+        args: ["-server", "-Xmx768M", "-jar", "app.jar"]
+        resources:
+          limits:
+            memory: "1024M"
+        env:
+        - name: SPRING_APPLICATION_JSON
+          value: '{"post_service_url":"http://jsonplaceholder.typicode.com/posts"}'
+        ports:
+        - containerPort: 5701
+          name: hazelcast
+          protocol: TCP
+        - containerPort: 8080
+          name: service
+          protocol: TCP

@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  namespace: default
+  labels:
+    app: zookeeper
+spec:
+  ports:
+  - name: client-port
+    port: 2181
+    protocol: TCP
+    targetPort: 2181
+  - name: follower-port
+    port: 2888
+    protocol: TCP
+    targetPort: 2888
+  - name: election-port
+    port: 3888
+    protocol: TCP
+    targetPort: 3888
+  selector:
+    app: zookeeper
+  type: ClusterIP
+  clusterIP: 10.107.136.253
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  namespace: default
+  labels:
+    app: zookeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+      - name: zookeeper
+        image: zookeeper:3.5
+        ports:
+        - containerPort: 2181
+          name: client-port
+          protocol: TCP
+        - containerPort: 2888
+          name: follower-port
+          protocol: TCP
+        - containerPort: 3888
+          name: election-port
+          protocol: TCP

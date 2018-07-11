@@ -5,7 +5,7 @@
 
     <groupId>org.bitvector</groupId>
     <artifactId>microservice4</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.4</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -56,15 +56,27 @@
             <version>3.10.2</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-x-discovery</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-zookeeper</artifactId>
+            <version>3.6.3</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+        <!--
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-devtools</artifactId>
+                    <optional>true</optional>
+                </dependency>
+        -->
     </dependencies>
 
     <build>
@@ -107,6 +119,9 @@
                 <configuration>
                     <repository>bitvector/${project.artifactId}</repository>
                     <tag>${project.version}</tag>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
                 </configuration>
                 <executions>
                     <execution>
