@@ -3,6 +3,9 @@ package org.bitvector.sb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -54,21 +57,25 @@ public class PostService {
     }
 
     @SuppressWarnings("WeakerAccess")
+    @Cacheable(value = "posts", key = "#id")
     public Post get(String id) {
         return restTemplate.getForObject(url + "/" + id, Post.class);
     }
 
     @SuppressWarnings("WeakerAccess")
+    @CachePut(value = "posts", key = "#result.id")
     public Post update(String id, Post post) {
         return restTemplate.patchForObject(url + "/" + id, post, Post.class);
     }
 
     @SuppressWarnings({"unused", "WeakerAccess"})
+    @CachePut(value = "posts", key = "#result.id")
     public Post add(Post post) {
         return restTemplate.postForObject(url, post, Post.class);
     }
 
     @SuppressWarnings({"unused", "WeakerAccess"})
+    @CacheEvict(value = "posts", key = "#id")
     public void delete(String id) {
         restTemplate.delete(url + "/" + id);
     }

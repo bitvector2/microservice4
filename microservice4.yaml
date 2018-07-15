@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: microservice4
-        image: bitvector/microservice4:0.0.5
+        image: bitvector/microservice4:0.0.8
         command: ["java"]
         args: ["-server", "-Xmx768M", "-jar", "app.jar"]
         resources:
