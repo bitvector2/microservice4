@@ -1,3 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: microservice4
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /posts
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /posts
+        backend:
+          serviceName: microservice4
+          servicePort: 8080
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -23,7 +39,7 @@ metadata:
   labels:
     app: microservice4
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: microservice4
@@ -34,12 +50,12 @@ spec:
     spec:
       containers:
       - name: microservice4
-        image: bitvector/microservice4:0.0.4
+        image: bitvector/microservice4:0.0.5
         command: ["java"]
         args: ["-server", "-Xmx768M", "-jar", "app.jar"]
         resources:
           limits:
-            memory: "1024M"
+            memory: "2048M"
         env:
         - name: SPRING_APPLICATION_JSON
           value: '{"post_service_url":"http://jsonplaceholder.typicode.com/posts"}'
