@@ -53,6 +53,7 @@ public class PostService {
         return posts;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public Post get(String id) {
         return restTemplate.getForObject(url + "/" + id, Post.class);
     }
@@ -62,12 +63,12 @@ public class PostService {
         return restTemplate.patchForObject(url + "/" + id, post, Post.class);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public Post add(Post post) {
         return restTemplate.postForObject(url, post, Post.class);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public void delete(String id) {
         restTemplate.delete(url + "/" + id);
     }

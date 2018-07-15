@@ -23,7 +23,7 @@ public class Post implements Serializable {
         return userId;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
