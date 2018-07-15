@@ -55,7 +55,7 @@ spec:
         args: ["-server", "-Xmx768M", "-jar", "app.jar"]
         resources:
           limits:
-            memory: "2048M"
+            memory: "1024M"
         env:
         - name: SPRING_APPLICATION_JSON
           value: '{"post_service_url":"http://jsonplaceholder.typicode.com/posts"}'
