@@ -52,7 +52,7 @@ spec:
       - name: microservice4
         image: bitvector/microservice4:0.0.9
         command: ["java"]
-        args: ["-XX:+UseParallelGC", "-XX:MaxRAMPercentage=75", "app.jar"]
+        args: ["-XX:+UseParallelGC", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
         resources:
           limits:
             memory: "1024M"
