@@ -65,6 +65,8 @@ spec:
           protocol: TCP
       - name: redis
         image: redis:alpine
+        command: ["redis-server"]
+        args: ["--maxmemory", "1000M"]
         resources:
           limits:
             memory: "1024M"
