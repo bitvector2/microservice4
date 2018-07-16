@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: microservice4
-        image: bitvector/microservice4:0.0.9
+        image: bitvector/microservice4:0.0.10
         command: ["java"]
         args: ["-XX:+UseParallelGC", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
         resources:
@@ -61,5 +61,14 @@ spec:
           value: '{"post_service_url":"http://jsonplaceholder.typicode.com/posts"}'
         ports:
         - containerPort: 8080
+          name: service-port
+          protocol: TCP
+      - name: redis
+        image: redis:alpine
+        resources:
+          limits:
+            memory: "1024M"
+        ports:
+        - containerPort: 6379
           name: service-port
           protocol: TCP
