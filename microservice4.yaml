@@ -50,9 +50,9 @@ spec:
     spec:
       containers:
       - name: microservice4
-        image: bitvector/microservice4:0.0.8
+        image: bitvector/microservice4:0.0.9
         command: ["java"]
-        args: ["-server", "-Xmx768M", "-jar", "app.jar"]
+        args: ["-XX:+UseParallelGC", "-XX:MaxRAMPercentage=75", "app.jar"]
         resources:
           limits:
             memory: "1024M"
