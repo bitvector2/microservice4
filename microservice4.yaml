@@ -58,7 +58,7 @@ spec:
             memory: "1024M"
         env:
         - name: SPRING_APPLICATION_JSON
-          value: '{"post_service_url":"http://jsonplaceholder.typicode.com/posts"}'
+          value: '{"post_service_url": "http://jsonplaceholder.typicode.com/posts"}'
         ports:
         - containerPort: 8080
           name: service-port
