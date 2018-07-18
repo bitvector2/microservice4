@@ -51,6 +51,7 @@ spec:
       containers:
       - name: microservice4
         image: bitvector/microservice4:0.0.11
+        imagePullPolicy: Always
         command: ["java"]
         args: ["-XX:+UseParallelGC", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
         resources:
@@ -65,6 +66,7 @@ spec:
           protocol: TCP
       - name: redis
         image: redis:alpine
+        imagePullPolicy: Always
         command: ["redis-server"]
         args: ["--maxmemory", "1000M"]
         resources:

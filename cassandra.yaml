@@ -28,6 +28,7 @@ spec:
       containers:
       - name: cassandra
         image: cassandra:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 7000
           name: intra-node
