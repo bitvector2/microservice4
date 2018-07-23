@@ -53,7 +53,7 @@ spec:
         image: bitvector/microservice4:0.0.11
         imagePullPolicy: Always
         command: ["java"]
-        args: ["-XX:+AggressiveHeap", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
+        args: ["-XX:+UseG1GC", "-XX:+UseStringDeduplication", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
         resources:
           limits:
             memory: "1024M"
